@@ -53,3 +53,4 @@ endmacro(set_external_path)
 # The macro sets the location of Pure Data sources.
 macro(set_pd_sources PD_SOURCES)
 	include_directories(${PD_SOURCES})
+endmacro(set_pd_sources)
