@@ -9,6 +9,9 @@ The repository offers a set of script to facilitate the creation of [CMake](http
 
 ### How to write the CMakeList
 
+* Define CMake minimum version:
+`cmake_minimum_required(VERSION 2.8)`
+
 * Include pd.cmake:    
 `include(path-to-pd.cmake)`
 

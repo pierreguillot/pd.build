@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 2.8)
 
 set(CMAKE_SUPPRESS_REGENERATION true)
 set(CMAKE_MACOSX_RPATH Off)
@@ -14,6 +13,7 @@ elseif(${UNIX})
 else()
 	set(CMAKE_SHARED_LIBRARY_SUFFIX  ".dll")
 	add_definitions("/D_CRT_SECURE_NO_WARNINGS /wd4091 /wd4996")
+	link_directories(${CMAKE_CURRENT_LIST_DIR})
 endif()
 
 # The function adds an external to the project.
@@ -49,3 +49,7 @@ macro(set_external_path EXTERNAL_PATH)
 	    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${EXTERNAL_PATH})
 	endforeach(OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
 endmacro(set_external_path)
+
+# The macro the location of Pure Data sources.
+macro(set_pd_sources PD_SOURCES)
+	include_directories(${PD_SOURCES})
