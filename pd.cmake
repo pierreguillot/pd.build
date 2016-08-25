@@ -50,6 +50,6 @@ macro(set_external_path EXTERNAL_PATH)
 	endforeach(OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
 endmacro(set_external_path)
 
-# The macro the location of Pure Data sources.
+# The macro sets the location of Pure Data sources.
 macro(set_pd_sources PD_SOURCES)
 	include_directories(${PD_SOURCES})
