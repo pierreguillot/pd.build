@@ -1,6 +1,8 @@
 
 # The path to this file.
-set(PD_CMAKE_PATH ${CMAKE_CURRENT_LIST_DIR})
+if(${WIN32})
+	link_directories(${CMAKE_CURRENT_LIST_DIR})
+endif()
 # The path to Pure Data sources.
 set(PD_SOURCES_PATH)
 # The output path for the externals.
@@ -35,8 +37,7 @@ function(add_pd_external PROJECT_NAME EXTERNAL_NAME EXTERNAL_SOURCES)
 		set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".pd_linux")
 	elseif(${WIN32})
 		set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".dll")
-		find_library(PD_LIBRARY NAMES pd HINTS ${PD_CMAKE_PATH})
-		target_link_libraries(${PROJECT_NAME} ${PD_LIBRARY})
+		target_link_libraries(${PROJECT_NAME} pd)
 		target_compile_definitions(${PROJECT_NAME} PUBLIC "/D_CRT_SECURE_NO_WARNINGS /wd4091 /wd4996")
 	endif()
 endfunction(add_pd_external)
