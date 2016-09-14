@@ -4,7 +4,7 @@ set(PD_CMAKE_PATH ${CMAKE_CURRENT_LIST_DIR})
 # The path to Pure Data sources.
 set(PD_SOURCES_PATH)
 # The output path for the externals.
-set(PD_SOURCES_PATH)
+set(PD_OUPUT_PATH)
 
 # The function adds an external to the project.
 # PROJECT_NAME is the name of your project (for example: freeverb_project)
@@ -16,6 +16,7 @@ set(PD_SOURCES_PATH)
 function(add_pd_external PROJECT_NAME EXTERNAL_NAME EXTERNAL_SOURCES)
 	source_group(src FILES ${EXTERNAL_SOURCES})
 	add_library(${PROJECT_NAME} SHARED ${EXTERNAL_SOURCES})
+
 	target_include_directories(${PROJECT_NAME} PUBLIC ${PD_SOURCES_PATH})
 
 	string(FIND ${EXTERNAL_NAME} "." NAME_HAS_DOT)
@@ -36,12 +37,14 @@ function(add_pd_external PROJECT_NAME EXTERNAL_NAME EXTERNAL_SOURCES)
 		set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".dll")
 		target_link_libraries(${PROJECT_NAME} pd)
 		target_include_directories(${PROJECT_NAME} PUBLIC ${PD_CMAKE_PATH})
+		target_include_directories(${PROJECT_NAME} INTERFACE ${PD_CMAKE_PATH})
 		target_compile_definitions(${PROJECT_NAME} PUBLIC "/D_CRT_SECURE_NO_WARNINGS /wd4091 /wd4996")
 	endif()
 endfunction(add_pd_external)
 
 # The macro defines the output path of the externals regardless the configuration and the OS.
 macro(set_pd_external_path EXTERNAL_PATH)
+	set(PD_OUPUT_PATH ${EXTERNAL_PATH})
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${EXTERNAL_PATH})
 	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${EXTERNAL_PATH})
 	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${EXTERNAL_PATH})
