@@ -4,28 +4,42 @@ The repository offers a set of script to facilitate the creation of [CMake](http
 
 ### Dependencies
 * The build system required [CMake](https://cmake.org/) (version minimum 2.8).
-* The MacOs and Linux CI and deployment system used is [Travis](https://travis-ci.org/).  
-* The Windows CI and deployment system used is [Appveyor](https://ci.appveyor.com/).  
 
 ### How to write the CMakeList
 
-* Define CMake minimum version:
-`cmake_minimum_required(VERSION 2.8)`
+1. Define your standard CMake header (for example):
+```cmake
+cmake_minimum_required(VERSION 2.8)
+set(CMAKE_SUPPRESS_REGENERATION true)
+set(CMAKE_MACOSX_RPATH Off)
+set(CMAKE_OSX_DEPLOYMENT_TARGET 10.4)
+set(CMAKE_OSX_ARCHITECTURES "i386;x86_64")
+```
 
-* Include pd.cmake:    
-`include(path-to-pd.cmake)`
+2. Include pd.cmake (for example):    
+```cmake
+include(pd.build/pd.cmake)
+```
 
-* Declare the name of the project:   
-`project(name-of-my-project)`
+3. Declare the name of the project:   
+```cmake
+project(name-of-my-project)
+```
 
-* Declare the path to the Pure Data sources (optional):  
-`include_directories(path-to-pd-sources)`
+4. Define the path to the Pure Data sources:  
+```cmake
+set_pd_sources(path-to-pd-sources)
+```
 
-* Set the output path for the externals (optional):  
-`set_pd_external_path(path-for-the-externals)`
+5. Set the output path for the externals:  
+```cmake
+set_pd_external_path(path-for-the-externals)
+```
 
-* Adds one or several externals:   
-`add_pd_external(EXTERNAL_PROJECT_NAME EXTERNAL_NAME EXTERNAL_SOURCES)`  
+6. Adds one or several externals:   
+```cmake
+add_pd_external(EXTERNAL_PROJECT_NAME EXTERNAL_NAME EXTERNAL_SOURCES)
+```
   * EXTERNAL_PROJECT_NAME is the name of the project
   * EXTERNAL_NAME is the name of the external
   * EXTERNAL_SOURCES are the source files of the external
