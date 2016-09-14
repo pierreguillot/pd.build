@@ -17,8 +17,10 @@ function(add_pd_external PROJECT_NAME EXTERNAL_NAME EXTERNAL_SOURCES)
 	source_group(src FILES ${EXTERNAL_SOURCES})
 	add_library(${PROJECT_NAME} SHARED ${EXTERNAL_SOURCES})
 
+	# Includes the path to Pure Data sources.
 	target_include_directories(${PROJECT_NAME} PRIVATE ${PD_SOURCES_PATH})
 
+	# Defines plateform specifix suffix and the linking necessities.
 	set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
 	if(${APPLE})
 		set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
@@ -31,12 +33,13 @@ function(add_pd_external PROJECT_NAME EXTERNAL_NAME EXTERNAL_SOURCES)
 		target_link_libraries(${PROJECT_NAME} ${PD_LIBRARY})
 	endif()
 
+	# Removes some warning for Microsoft Visual C.
 	if(${MSVC})
 		set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY COMPILE_FLAGS "/D_CRT_SECURE_NO_WARNINGS /wd4091 /wd4996")
 	endif()
 
-	# Defines the name of the external of the externals.
-	# On XCode the external named name~ have to be name 'name~'.
+	# Defines the name of the external.
+	# On XCode an external named name~ have to be named 'name~'.
 	string(FIND ${EXTERNAL_NAME} "." NAME_HAS_DOT)
 	string(FIND ${EXTERNAL_NAME} "~" NAME_HAS_TILDE)
 	if((CMAKE_GENERATOR STREQUAL Xcode) AND (NAME_HAS_DOT EQUAL -1) AND (NAME_HAS_TILDE GREATER -1))
@@ -45,7 +48,7 @@ function(add_pd_external PROJECT_NAME EXTERNAL_NAME EXTERNAL_SOURCES)
 		set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${EXTERNAL_NAME})
 	endif()
 
-	# Defines the output path of the externals.
+	# Defines the output path of the external.
   set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PD_OUPUT_PATH})
 	set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PD_OUPUT_PATH})
 	set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PD_OUPUT_PATH})
