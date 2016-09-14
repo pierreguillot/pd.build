@@ -19,14 +19,6 @@ function(add_pd_external PROJECT_NAME EXTERNAL_NAME EXTERNAL_SOURCES)
 
 	target_include_directories(${PROJECT_NAME} PRIVATE ${PD_SOURCES_PATH})
 
-	string(FIND ${EXTERNAL_NAME} "." NAME_HAS_DOT)
-	string(FIND ${EXTERNAL_NAME} "~" NAME_HAS_TILDE)
-	if((CMAKE_GENERATOR STREQUAL Xcode) AND (NAME_HAS_DOT EQUAL -1) AND (NAME_HAS_TILDE GREATER -1))
-	  set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME '${EXTERNAL_NAME}')
-	else()
-	  set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${EXTERNAL_NAME})
-	endif()
-
 	set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
 	if(${APPLE})
 		set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
@@ -38,23 +30,33 @@ function(add_pd_external PROJECT_NAME EXTERNAL_NAME EXTERNAL_SOURCES)
 		find_library(PD_LIBRARY NAMES pd HINTS ${PD_CMAKE_PATH})
 		target_link_libraries(${PROJECT_NAME} ${PD_LIBRARY})
 	endif()
+
 	if(${MSVC})
 		set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY COMPILE_FLAGS "/D_CRT_SECURE_NO_WARNINGS /wd4091 /wd4996")
 	endif()
+
+	# Defines the name of the external of the externals.
+	# On XCode the external named name~ have to be name 'name~'.
+	string(FIND ${EXTERNAL_NAME} "." NAME_HAS_DOT)
+	string(FIND ${EXTERNAL_NAME} "~" NAME_HAS_TILDE)
+	if((CMAKE_GENERATOR STREQUAL Xcode) AND (NAME_HAS_DOT EQUAL -1) AND (NAME_HAS_TILDE GREATER -1))
+		set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME '${EXTERNAL_NAME}')
+	else()
+		set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${EXTERNAL_NAME})
+	endif()
+
+	# Defines the output path of the external.
+  set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PD_OUPUT_PATH})
+	foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
+		    string(TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG)
+			  set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${PD_OUPUT_PATH})
+	endforeach(OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
+
 endfunction(add_pd_external)
 
-# The macro defines the output path of the externals regardless the configuration and the OS.
+# The macro defines the output path of the externals.
 macro(set_pd_external_path EXTERNAL_PATH)
 	set(PD_OUPUT_PATH ${EXTERNAL_PATH})
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${EXTERNAL_PATH})
-	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${EXTERNAL_PATH})
-	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${EXTERNAL_PATH})
-	foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
-	    string(TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG)
-	    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${EXTERNAL_PATH})
-	    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${EXTERNAL_PATH})
-	    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${EXTERNAL_PATH})
-	endforeach(OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
 endmacro(set_pd_external_path)
 
 # The macro sets the location of Pure Data sources.
