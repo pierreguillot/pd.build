@@ -1,8 +1,6 @@
 
-set(CMAKE_SUPPRESS_REGENERATION true)
-set(CMAKE_MACOSX_RPATH Off)
-set(CMAKE_OSX_DEPLOYMENT_TARGET 10.4)
-set(CMAKE_OSX_ARCHITECTURES "i386;x86_64")
+# The path to this file.
+set(PD_CMAKE_PATH ${CMAKE_CURRENT_LIST_DIR})
 
 # The function adds an external to the project.
 # PROJECT_NAME is the name of your project (for example: freeverb_project)
@@ -12,10 +10,9 @@ set(CMAKE_OSX_ARCHITECTURES "i386;x86_64")
 # add_external(freeverb_project freeverb~ "userpath/freeverb~.c userpath/otherfile.c")
 # later see how to manage relative and absolute path
 function(add_pd_external PROJECT_NAME EXTERNAL_NAME EXTERNAL_SOURCES)
-
 	source_group(src FILES ${EXTERNAL_SOURCES})
 	add_library(${PROJECT_NAME} SHARED ${EXTERNAL_SOURCES})
-
+	
 	string(FIND ${EXTERNAL_NAME} "." NAME_HAS_DOT)
 	string(FIND ${EXTERNAL_NAME} "~" NAME_HAS_TILDE)
 	if((CMAKE_GENERATOR STREQUAL Xcode) AND (NAME_HAS_DOT EQUAL -1) AND (NAME_HAS_TILDE GREATER -1))
@@ -33,7 +30,7 @@ function(add_pd_external PROJECT_NAME EXTERNAL_NAME EXTERNAL_SOURCES)
 	elseif(${WIN32})
 		set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".dll")
 		target_link_libraries(${PROJECT_NAME} pd)
-		target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR})
+		target_include_directories(${PROJECT_NAME} PRIVATE ${PD_CMAKE_PATH})
 		target_compile_definitions(${PROJECT_NAME} PRIVATE "/D_CRT_SECURE_NO_WARNINGS /wd4091 /wd4996")
 	endif()
 endfunction(add_pd_external)
