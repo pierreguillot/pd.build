@@ -16,7 +16,7 @@ endif()
 # The function should be call:
 # add_external(freeverb_project freeverb~ "userpath/freeverb~.c userpath/otherfile.c")
 # later see how to manage relative and absolute path
-function(add_external PROJECT_NAME EXTERNAL_NAME EXTERNAL_SOURCES)
+function(add_pd_external PROJECT_NAME EXTERNAL_NAME EXTERNAL_SOURCES)
 
 	source_group(src FILES ${EXTERNAL_SOURCES})
 	add_library(${PROJECT_NAME} SHARED ${EXTERNAL_SOURCES})
@@ -41,10 +41,10 @@ set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
 		link_directories(${CMAKE_CURRENT_LIST_DIR})
 		target_link_libraries(${PROJECT_NAME} pd)
 	endif()
-endfunction(add_external)
+endfunction(add_pd_external)
 
 # The macro defines the output path of the externals regardless the configuration and the OS.
-macro(set_external_path EXTERNAL_PATH)
+macro(set_pd_external_path EXTERNAL_PATH)
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${EXTERNAL_PATH})
 	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${EXTERNAL_PATH})
 	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${EXTERNAL_PATH})
@@ -54,7 +54,7 @@ macro(set_external_path EXTERNAL_PATH)
 	    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${EXTERNAL_PATH})
 	    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${EXTERNAL_PATH})
 	endforeach(OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
-endmacro(set_external_path)
+endmacro(set_pd_external_path)
 
 # The macro sets the location of Pure Data sources.
 macro(set_pd_sources PD_SOURCES)

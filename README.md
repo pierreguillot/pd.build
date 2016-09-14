@@ -22,10 +22,10 @@ The repository offers a set of script to facilitate the creation of [CMake](http
 `include_directories(path-to-pd-sources)`
 
 * Set the output path for the externals (optional):  
-`set_external_path(path-for-the-externals)`
+`set_pd_external_path(path-for-the-externals)`
 
 * Adds one or several externals:   
-`add_external(EXTERNAL_PROJECT_NAME EXTERNAL_NAME EXTERNAL_SOURCES)`  
+`add_pd_external(EXTERNAL_PROJECT_NAME EXTERNAL_NAME EXTERNAL_SOURCES)`  
   * EXTERNAL_PROJECT_NAME is the name of the project
   * EXTERNAL_NAME is the name of the external
   * EXTERNAL_SOURCES are the source files of the external
