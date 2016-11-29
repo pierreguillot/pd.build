@@ -64,7 +64,7 @@ add_pd_external(my_object3_project my_object3_name "${my_object3_sources}")
 
 The generation of the build system or the IDE project is similar to any CMake project. The basic usage follows these steps from the project folder (where *CMakeList* is localized):
 
-```cmake
+```bash
 # Create a subfolder (generally called build)
 mkdir build
 # Move to this folder
@@ -96,7 +96,8 @@ git:
   submodules: true
   depth: 3
 
-# Define the PLATFORM environment variable in the configuration matrix and define the name of the package of needed (1).
+# Define the PLATFORM environment variable in the configuration matrix and
+# if needed define PACKAGE environment variable (1).
 matrix:
   include:
   - os: linux
