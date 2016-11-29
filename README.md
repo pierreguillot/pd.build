@@ -82,7 +82,7 @@ cmake --build .
 
 ## Travis
 
-Travis is Continuous Integration (CI) server that allows to build, test and deploy your externals online for several operating systems. The pd.build repository also offers a set of scripts that facilitates the set up of CI using travis. For the moment, the scripts allows you to compile for Linux 32bit, Linux 64bit and MacOS universal machines.
+Travis is Continuous Integration (CI) server that allows to build, test and deploy your externals online for several operating systems. The pd.build repository also offers a set of scripts that facilitates the set up of the CI with travis. For the moment, the scripts allows you to compile for Linux 32bit, Linux 64bit and MacOS universal machines.
 
 ### Install & Build
 First, you need to do is to define *PLATFORM* environment variable in the configuration matrix:
@@ -121,7 +121,7 @@ and then run the script with the files and folders that you want to include
 ```
 install: bash ./pd.build/ci.package.sh LICENSE README.md src/ binaries/
 ```
-The result will be a zip file containing all the files and folders with a name that follows the deken syntax using the *TRAVIS_TAG* environment variable for the version if it has been set up, or the *TRAVIS_COMMIT* environment variable otherwise. 
+The result will be a zip file (containing all the files and folders) with a name that follows the [deken](https://github.com/pure-data/deken) syntax with the *TRAVIS_TAG* environment variable for the version if it has been set up (otherwise it uses the *TRAVIS_COMMIT* environment variable).
 
 ## Appveyor
 Coming soon...
