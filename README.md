@@ -7,9 +7,10 @@ The repository offers a set of script to facilitate the creation of [CMake](http
 1. [Pre-required]()
 2. [Configuration]()
 3. [Generation]()
-4. [How to compile on travis-ci?]()
-5. How to compile on ci.appveyor?
-6. How to upload with deken?
+4. [Continuous Integration]()
+  1. [Travis]()
+  2. [Appveyor]()
+6. [Packaging & Distribution]()
 7. Examples
 8. Other project
 
@@ -80,3 +81,9 @@ cmake .. -G "Visual Studio 14 2015" (example)
 # Then use your IDE or use CMake to compile
 cmake --build .
 ```
+
+## Continuous Integration
+
+The Continuous Integration (CI)
+
+### Travis
