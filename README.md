@@ -136,7 +136,7 @@ deploy:
 ```
 
 Further information:  
-1. The *PLATFORM* environment variable is used by the ci.install.sh and ci.script.sh scripts. The *PACKAGE* environment variable is optional and is only used by the ci.package.sh script.
+1. The *PLATFORM* environment variable is used by the ci.install.sh and ci.script.sh scripts. The *PACKAGE* environment variable is optional and is only used by the ci.package.sh script.  
 2. The ci.install.sh script installs the 32 bit dependencies for the linux environment.   
 3. The ci.script.sh script generates the project using CMake and build the externals for the specified platform.  
 4. The ci.package.sh script creates a zip file using the name of the *PACKAGE* environment variable and containing all the files and folders given as arguments.
