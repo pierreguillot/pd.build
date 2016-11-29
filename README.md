@@ -82,46 +82,64 @@ cmake --build .
 
 ## Travis
 
-Travis is Continuous Integration (CI) server that allows to build, test and deploy your externals online for several operating systems. The pd.build repository also offers a set of scripts that facilitates the set up of the CI with travis. For the moment, the scripts allows you to compile for Linux 32bit, Linux 64bit and MacOS universal machines.
-
-### Install & Build
-First, you need to do is to define *PLATFORM* environment variable in the configuration matrix:
+Travis is a continuous integration (CI) server that allows to build, test and deploy your externals online for several operating systems. The pd.build repository also offers a set of scripts that facilitates the set up of the CI with travis. The scripts allows you to compile for Linux 32bit, Linux 64bit and MacOS universal machines. Here is an example on how to use the scripts from the travis yml (generally .travis.yml):
 
 ```
+# Define your standard travis configuration (for example):
+language: c
+dist: trusty
+sudo: required
+
+notifications:
+  email: false
+git:
+  submodules: true
+  depth: 3
+
+# Define the PLATFORM environment variable in the configuration matrix and define the name of the package of needed (1).
 matrix:
   include:
   - os: linux
     compiler: gcc
     env:
       - PLATFORM='linux32'
+      - PACKAGE='myproject-linux32'
   - os: linux
     compiler: gcc
     env:
       - PLATFORM='linux64'
+      - PACKAGE='myproject-linux64'
   - os: osx
     compiler: gcc
     env:
       - PLATFORM='macos'
-```
+      - PACKAGE='myproject-macos'
 
-Then, you can call the scripts that will install the pre-required dependencies and build your externals:
+# Install the pre-required dependencies (2)
+install: bash ./pd.build/ci.install.sh
 
-```
-install: bash ./pd.build/ci.install.sh   
+# Generate the project and build the externals (3)
 script: bash ./pd.build/ci.script.sh
+
+# Package the files and folders (4)
+after_success: bash ./pd.build/ci.package.sh LICENSE README.md src/ binaries/
+
+# Deploy to Github
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: my_secure_key
+  file: $PACKAGE.zip
+  on:
+    tags: true
 ```
 
-### Packaging
-If you want to package your externals, you need to define the name of the package using *PACKAGE* environment variable:
-```
-env:
-  - PACKAGE='name_of_the_package'
-```
-and then run the script with the files and folders that you want to include
-```
-install: bash ./pd.build/ci.package.sh LICENSE README.md src/ binaries/
-```
-The result will be a zip file (containing all the files and folders) with a name that follows the [deken](https://github.com/pure-data/deken) syntax with the *TRAVIS_TAG* environment variable for the version if it has been set up (otherwise it uses the *TRAVIS_COMMIT* environment variable).
+Further information:  
+1. The *PLATFORM* environment variable is used by the ci.install.sh and ci.script.sh scripts. The *PACKAGE* environment variable is optional and is only used by the ci.package.sh script.
+2. The ci.install.sh script installs the 32 bit dependencies for the linux environment.   
+3. The ci.script.sh script generates the project using CMake and build the externals for the specified platform.  
+4. The ci.package.sh script creates a zip file using the name of the *PACKAGE* environment variable and containing all the files and folders given as arguments.
 
 ## Appveyor
 Coming soon...
