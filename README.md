@@ -82,8 +82,46 @@ cmake --build .
 
 ## Travis
 
-Travis is Continuous Integration (CI) server that allows to build, test and deploy your externals online for several operating systems. The pd.build repository also offers a set of scripts that facilitates the set up of CI using travis. 
+Travis is Continuous Integration (CI) server that allows to build, test and deploy your externals online for several operating systems. The pd.build repository also offers a set of scripts that facilitates the set up of CI using travis. For the moment, the scripts allows you to compile for Linux 32bit, Linux 64bit and MacOS universal machines.
 
+### Install & Build
+First, you need to do is to define *PLATFORM* environment variable in the configuration matrix:
+
+```
+matrix:
+  include:
+  - os: linux
+    compiler: gcc
+    env:
+      - PLATFORM='linux32'
+  - os: linux
+    compiler: gcc
+    env:
+      - PLATFORM='linux64'
+  - os: osx
+    compiler: gcc
+    env:
+      - PLATFORM='macos'
+```
+
+Then, you can call the scripts that will install the pre-required dependencies and build your externals:
+
+```
+install: bash ./pd.build/ci.install.sh   
+script: bash ./pd.build/ci.script.sh
+```
+
+### Packaging
+If you want to package your externals, you need to define the name of the package using *PACKAGE* environment variable:
+```
+env:
+  - PACKAGE='name_of_the_package'
+```
+and then run the script with the files and folders that you want to include
+```
+install: bash ./pd.build/ci.package.sh LICENSE README.md src/ binaries/
+```
+The result will be a zip file containing all the files and folders with a name that follows the deken syntax using the *TRAVIS_TAG* environment variable for the version if it has been set up, or the *TRAVIS_COMMIT* environment variable otherwise. 
 
 ## Appveyor
 Coming soon...
@@ -97,3 +135,4 @@ Coming soon...
 ## See Also
 
 * [pd-lib-builder](https://github.com/pure-data/pd-lib-builder)
+* [deken](https://github.com/pure-data/deken)

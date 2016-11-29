@@ -2,12 +2,13 @@
 
 zip -r $PACKAGE.zip $*
 
+if [[ "$TRAVIS" == "true" ]]; then
+
 PACKAGE_VALUE=$TRAVIS_COMMIT
 if [ $TRAVIS_TAG ]; then
   PACKAGE_VALUE=$TRAVIS_TAG
 fi
 
-if [[ "$TRAVIS" == "true" ]]; then
 if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
 if [[ "$PLATFORM" == "linux32" ]]; then
   mv $PACKAGE.zip $PACKAGE-$TRAVIS_COMMIT-"("Linux-i386-32")""("Sources")"-externals.zip
@@ -20,5 +21,3 @@ fi
 elif [["$APPVEYOR" == "True"]]; then
   echo "nothing to do for appveyor..."
 fi
-
-ls
