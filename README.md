@@ -4,15 +4,13 @@ The repository offers a set of script to facilitate the creation of [CMake](http
 
 ***
 
-1. [Pre-required]()
-2. [Configuration]()
-3. [Generation]()
-4. [Continuous Integration]()
-  1. [Travis]()
-  2. [Appveyor]()
-6. [Packaging & Distribution]()
-7. Examples
-8. Other project
+1. [Pre-required](https://github.com/pierreguillot/pd.build#pre-required)
+2. [Configuration](https://github.com/pierreguillot/pd.build#Configuration)
+3. [Generation](https://github.com/pierreguillot/pd.build#Generation)
+4. [Travis](https://github.com/pierreguillot/pd.build#travis)
+5. [Appveyor](https://github.com/pierreguillot/pd.build#appveyor)
+6. [Examples](https://github.com/pierreguillot/pd.build#Examples)
+7. [See Also](https://github.com/pierreguillot/pd.build#See-Also)
 
 ***
 
@@ -82,8 +80,77 @@ cmake .. -G "Visual Studio 14 2015" (example)
 cmake --build .
 ```
 
-## Continuous Integration
+## Travis
 
-The Continuous Integration (CI)
+Travis is a continuous integration (CI) server that allows to build, test and deploy your externals online for several operating systems. The pd.build repository also offers a set of scripts that facilitates the set up of the CI with travis. The scripts allows you to compile for Linux 32bit, Linux 64bit and MacOS universal machines. Here is an example on how to use the scripts from the travis yml (generally .travis.yml):
 
-### Travis
+```
+# Define your standard travis configuration (for example):
+language: c
+dist: trusty
+sudo: required
+
+notifications:
+  email: false
+git:
+  submodules: true
+  depth: 3
+
+# Define the PLATFORM environment variable in the configuration matrix and define the name of the package of needed (1).
+matrix:
+  include:
+  - os: linux
+    compiler: gcc
+    env:
+      - PLATFORM='linux32'
+      - PACKAGE='myproject-linux32'
+  - os: linux
+    compiler: gcc
+    env:
+      - PLATFORM='linux64'
+      - PACKAGE='myproject-linux64'
+  - os: osx
+    compiler: gcc
+    env:
+      - PLATFORM='macos'
+      - PACKAGE='myproject-macos'
+
+# Install the pre-required dependencies (2)
+install: bash ./pd.build/ci.install.sh
+
+# Generate the project and build the externals (3)
+script: bash ./pd.build/ci.script.sh
+
+# Package the files and folders (4)
+after_success: bash ./pd.build/ci.package.sh LICENSE README.md src/ binaries/
+
+# Deploy to Github
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: my_secure_key
+  file: $PACKAGE.zip
+  on:
+    tags: true
+```
+
+Further information:  
+1. The *PLATFORM* environment variable is used by the ci.install.sh and ci.script.sh scripts. The *PACKAGE* environment variable is optional and is only used by the ci.package.sh script.
+2. The ci.install.sh script installs the 32 bit dependencies for the linux environment.   
+3. The ci.script.sh script generates the project using CMake and build the externals for the specified platform.  
+4. The ci.package.sh script creates a zip file using the name of the *PACKAGE* environment variable and containing all the files and folders given as arguments.
+
+## Appveyor
+Coming soon...
+
+## Examples
+
+* [pd-dummy](https://github.com/pierreguillot/pd-dummy)
+* [HoaLibrary-Pd](https://github.com/CICM/HoaLibrary-PD/tree/dev/refactory)
+* [paccpp/PdObjects](https://github.com/paccpp/PdObjects)
+
+## See Also
+
+* [pd-lib-builder](https://github.com/pure-data/pd-lib-builder)
+* [deken](https://github.com/pure-data/deken)
