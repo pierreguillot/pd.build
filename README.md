@@ -18,7 +18,7 @@ The repository offers a set of script to facilitate the creation of [CMake](http
 
 ## Pre-required
 
-To compile Pd externals using *pd.build*, you need [CMake](https://cmake.org/) (minimum version 2.8) and a build system or an IDE (like Unix makefile, XCode, Visual Studio, Code::Blocks, etc.). You also need the Pure Data sources, that are generally included within your Pure Data distribution. and [pd.build](https://github.com/pierreguillot/pd.build/archive/master.zip). If you use [Git](https://git-scm.com/) to manage your project, it is recommend to include pd.build as a submodule `git submodule add https://github.com/pierreguillot/pd.build`. The Pd sources can also be included as a submodule using the [Git repository](https://github.com/pure-data/pure-data).
+To compile Pd externals using *pd.build*, you need [CMake](https://cmake.org/) (minimum version 2.8) and a build system or an IDE (like Unix makefile, XCode, Visual Studio, Code::Blocks, etc.). You also need the Pure Data sources, that are generally included within your Pure Data distribution and [pd.build](https://github.com/pierreguillot/pd.build/archive/master.zip). If you use [Git](https://git-scm.com/) to manage your project, it is recommend to include pd.build as a submodule `git submodule add https://github.com/pierreguillot/pd.build`. The Pd sources can also be included as a submodule using the [Git repository](https://github.com/pure-data/pure-data).
 
 ## Configuration
 
