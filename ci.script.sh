@@ -1,31 +1,18 @@
 #!/bin/bash
 
-if [[ "$TRAVIS" == "true" ]];
-
-if [[ "$TRAVIS_OS_NAME" == "linux" ]];
-if [[ "$PLATFORM" == "linux32" ]];
+if [[ "$TRAVIS" == "true" ]]; then
 mkdir build
 cd build
+
+if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+if [[ "$PLATFORM" == "linux32" ]]; then
 cmake .. -DCMAKE_C_FLAGS=-m32
-cmake --build . --config Release
-cd ..
-fi
-
-if [[ "$PLATFORM" == "linux64" ]];
-mkdir build
-cd build
+elif [[ "$PLATFORM" == "linux64" ]]; then
 cmake .. -DCMAKE_C_FLAGS=-m64
-cmake --build . --config Release
-cd ..
 fi
-fi
-
-if [[ "$TRAVIS_OS_NAME" == "osx" ]];
-mkdir build
-cd build
+elif [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
 cmake .. "-DCMAKE_OSX_ARCHITECTURES=i386;x86_64"
+fi
 cmake --build . --config Release
 cd ..
-fi
-
 fi
