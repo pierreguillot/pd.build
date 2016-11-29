@@ -4,15 +4,13 @@ The repository offers a set of script to facilitate the creation of [CMake](http
 
 ***
 
-1. [Pre-required]()
-2. [Configuration]()
-3. [Generation]()
-4. [Continuous Integration]()
-  1. [Travis]()
-  2. [Appveyor]()
-6. [Packaging & Distribution]()
-7. Examples
-8. Other project
+1. [Pre-required](https://github.com/pierreguillot/pd.build#pre-required)
+2. [Configuration](https://github.com/pierreguillot/pd.build#Configuration)
+3. [Generation](https://github.com/pierreguillot/pd.build#Generation)
+4. [Travis](https://github.com/pierreguillot/pd.build#travis)
+5. [Appveyor](https://github.com/pierreguillot/pd.build#appveyor)
+6. [Examples](https://github.com/pierreguillot/pd.build#Examples)
+7. [See Also](https://github.com/pierreguillot/pd.build#See-Also)
 
 ***
 
@@ -82,8 +80,20 @@ cmake .. -G "Visual Studio 14 2015" (example)
 cmake --build .
 ```
 
-## Continuous Integration
+## Travis
 
-The Continuous Integration (CI)
+Travis is Continuous Integration (CI) server that allows to build, test and deploy your externals online for several operating systems. The pd.build repository also offers a set of scripts that facilitates the set up of CI using travis. 
 
-### Travis
+
+## Appveyor
+Coming soon...
+
+## Examples
+
+* [pd-dummy](https://github.com/pierreguillot/pd-dummy)
+* [HoaLibrary-Pd](https://github.com/CICM/HoaLibrary-PD/tree/dev/refactory)
+* [paccpp/PdObjects](https://github.com/paccpp/PdObjects)
+
+## See Also
+
+* [pd-lib-builder](https://github.com/pure-data/pd-lib-builder)
