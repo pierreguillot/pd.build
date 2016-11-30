@@ -147,7 +147,7 @@ Coming soon...
 
 ## Examples
 
-* [pd-dummy](https://github.com/pierreguillot/pd-dummy)
+* [pd.dummies](https://github.com/pierreguillot/pd.dummies)
 * [HoaLibrary-Pd](https://github.com/CICM/HoaLibrary-PD/tree/dev/refactory)
 * [paccpp/PdObjects](https://github.com/paccpp/PdObjects)
 
