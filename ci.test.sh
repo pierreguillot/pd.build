@@ -7,7 +7,7 @@ if [[ "$PLATFORM" == "linux32" ]]; then
   tar -xvf pd-0.47-1.src.tar.gz
   cd pd-0.47-1/
   ./autogen.sh
-  ./configure --build=i686-pc-linux-gnu "CFLAGS=-m32" "CXXFLAGS=-m32" "LDFLAGS=-m32"
+  ./configure --build=i686-pc-linux-gnu "CFLAGS=-m32" "CXXFLAGS=-m32" "LDFLAGS=-m32" --prefix="./"
   make
   echo "-----------------------------------------"
   echo "pd-0.47-1/:"
@@ -28,7 +28,7 @@ elif [[ "$PLATFORM" == "linux64" ]]; then
   tar -xvf pd-0.47-1.src.tar.gz
   cd pd-0.47-1
   ./autogen.sh
-  ./configure
+  ./configure --prefix="./"
   make
   echo "-----------------------------------------"
   echo "pd-0.47-1/:"
