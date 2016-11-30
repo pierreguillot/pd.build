@@ -7,13 +7,20 @@ if [[ "$PLATFORM" == "linux32" ]]; then
   tar -xvf pd-0.47-1.src.tar.gz
   cd pd-0.47-1/
   ./autogen.sh
-  ./configure
+  ./configure --build=i686-pc-linux-gnu "CFLAGS=-m32" "CXXFLAGS=-m32" "LDFLAGS=-m32"
   make
+  echo "-----------------------------------------"
+  echo "pd-0.47-1/:"
   ls
-  cd bin
+  echo "-----------------------------------------"
+  echo "pd-0.47-1/bin/:"
+  cd bin/
   ls
-  cd ../.libs
+  echo "-----------------------------------------"
+  echo "pd-0.47-1/.libs/:"
+  cd ../.libs/
   ls
+  echo "-----------------------------------------"
   cd ../
   ./pd-0.47-1/.libs/pd  -stderr -open $1
 elif [[ "$PLATFORM" == "linux64" ]]; then
@@ -23,7 +30,18 @@ elif [[ "$PLATFORM" == "linux64" ]]; then
   ./autogen.sh
   ./configure
   make
+  echo "-----------------------------------------"
+  echo "pd-0.47-1/:"
   ls
+  echo "-----------------------------------------"
+  echo "pd-0.47-1/bin/:"
+  cd bin/
+  ls
+  echo "-----------------------------------------"
+  echo "pd-0.47-1/.libs/:"
+  cd ../.libs/
+  ls
+  echo "-----------------------------------------"
   cd ../
   ./pd-0.47-1/.libs/pd  -stderr -open $1
 fi
