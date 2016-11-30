@@ -5,10 +5,12 @@ if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
 if [[ "$PLATFORM" == "linux32" ]]; then
   curl -o pd-0.47-1.src.tar.gz 'http://msp.ucsd.edu/Software/pd-0.47-1.src.tar.gz'
   tar -xvf pd-0.47-1.src.tar.gz
-  cd pd-0.47-1
-  ./autogen.sh
-  ./configure
-  make
+  cd pd-0.47-1/src
+  make -f makefile.gnu
+  ls
+  cd ../bin
+  ls
+  cd ../.libs
   ls
   cd ../
   ./pd-0.47-1/.libs/pd  -stderr -open $1
