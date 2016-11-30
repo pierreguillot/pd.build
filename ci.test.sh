@@ -7,8 +7,9 @@ if [[ "$PLATFORM" == "linux32" ]]; then
   tar -xvf pd-0.47-1.src.tar.gz
   cd pd-0.47-1/
   ./autogen.sh
-  ./configure --build=i686-pc-linux-gnu "CFLAGS=-m32" "CXXFLAGS=-m32" "LDFLAGS=-m32" --prefix="./"
+  ./configure --build=i686-pc-linux-gnu "CFLAGS=-m32" "CXXFLAGS=-m32" "LDFLAGS=-m32" --prefix="./" #-q
   make
+  make install DESTDIR=./ prefix=/
   echo "-----------------------------------------"
   echo "pd-0.47-1/:"
   ls
@@ -28,8 +29,9 @@ elif [[ "$PLATFORM" == "linux64" ]]; then
   tar -xvf pd-0.47-1.src.tar.gz
   cd pd-0.47-1
   ./autogen.sh
-  ./configure --prefix="./"
+  ./configure #-q
   make
+  make install DESTDIR=./ prefix=/
   echo "-----------------------------------------"
   echo "pd-0.47-1/:"
   ls
@@ -43,7 +45,7 @@ elif [[ "$PLATFORM" == "linux64" ]]; then
   ls
   echo "-----------------------------------------"
   cd ../
-  ./pd-0.47-1/.libs/pd  -stderr -open $1
+  ./pd-0.47-1/.libs/pd -stderr -open $1
 fi
 elif [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
   curl -o pd-0.47-1.mac.tar.gz 'http://msp.ucsd.edu/Software/pd-0.47-1.mac.tar.gz'
