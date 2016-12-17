@@ -35,6 +35,7 @@ function(add_pd_external PROJECT_NAME EXTERNAL_NAME EXTERNAL_SOURCES)
 
 	# Removes some warning for Microsoft Visual C.
 	if(${MSVC})
+		target_compile_definitions(${PROJECT_NAME} PRIVATE PD_INTERNAL)
 		set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY COMPILE_FLAGS "/D_CRT_SECURE_NO_WARNINGS /wd4091 /wd4996")
 	endif()
 
