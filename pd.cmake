@@ -4,7 +4,16 @@ set(PD_CMAKE_PATH ${CMAKE_CURRENT_LIST_DIR})
 # The path to Pure Data sources.
 set(PD_SOURCES_PATH)
 # The output path for the externals.
-set(PD_OUPUT_PATH)
+set(PD_OUTPUT_PATH)
+if(${WIN32})
+	if(NOT PD_LIB_PATH)
+		if(${CMAKE_GENERATOR} MATCHES "(Win64|IA64)")
+			set(PD_LIB_PATH  ${PD_CMAKE_PATH}/x64)
+		else()
+			set(PD_LIB_PATH  ${PD_CMAKE_PATH}/x86)
+		endif()
+	endif()
+endif()
 
 # The function adds an external to the project.
 # PROJECT_NAME is the name of your project (for example: freeverb_project)
@@ -29,7 +38,7 @@ function(add_pd_external PROJECT_NAME EXTERNAL_NAME EXTERNAL_SOURCES)
 		set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".pd_linux")
 	elseif(${WIN32})
 		set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".dll")
-		find_library(PD_LIBRARY NAMES pd HINTS ${PD_CMAKE_PATH})
+		find_library(PD_LIBRARY NAMES pd HINTS ${PD_LIB_PATH})
 		target_link_libraries(${PROJECT_NAME} ${PD_LIBRARY})
 	endif()
 
@@ -51,21 +60,21 @@ function(add_pd_external PROJECT_NAME EXTERNAL_NAME EXTERNAL_SOURCES)
 	endif()
 
 	# Defines the output path of the external.
-  set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PD_OUPUT_PATH})
-	set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PD_OUPUT_PATH})
-	set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PD_OUPUT_PATH})
+  set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${PD_OUTPUT_PATH})
+	set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PD_OUTPUT_PATH})
+	set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${PD_OUTPUT_PATH})
 	foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
 		    string(TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG)
-			  set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${PD_OUPUT_PATH})
-				set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${PD_OUPUT_PATH})
-				set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${PD_OUPUT_PATH})
+			  set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${PD_OUTPUT_PATH})
+				set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${PD_OUTPUT_PATH})
+				set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${PD_OUTPUT_PATH})
 	endforeach(OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
 
 endfunction(add_pd_external)
 
 # The macro defines the output path of the externals.
 macro(set_pd_external_path EXTERNAL_PATH)
-	set(PD_OUPUT_PATH ${EXTERNAL_PATH})
+	set(PD_OUTPUT_PATH ${EXTERNAL_PATH})
 endmacro(set_pd_external_path)
 
 # The macro sets the location of Pure Data sources.
