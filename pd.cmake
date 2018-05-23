@@ -5,7 +5,7 @@ set(PD_CMAKE_PATH ${CMAKE_CURRENT_LIST_DIR})
 set(PD_SOURCES_PATH)
 # The output path for the externals.
 set(PD_OUTPUT_PATH)
-if(${WIN32})
+if(WIN32)
 	if(NOT PD_LIB_PATH)
 		if(${CMAKE_GENERATOR} MATCHES "(Win64|IA64)")
 			set(PD_LIB_PATH  ${PD_CMAKE_PATH}/x64)
@@ -45,6 +45,13 @@ function(add_pd_external PROJECT_NAME EXTERNAL_NAME EXTERNAL_SOURCES)
 	# Removes some warning for Microsoft Visual C.
 	if(${MSVC})
 		set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY COMPILE_FLAGS "/wd4091 /wd4996")
+	endif()
+
+	# Adds
+	if(WIN32)
+		if(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+			set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY COMPILE_FLAGS " /DPD_LONGINTTYPE=\"long long\"")
+		endif()
 	endif()
 
 	# Defines the name of the external.
