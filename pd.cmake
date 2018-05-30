@@ -52,7 +52,6 @@ function(add_pd_external PROJECT_NAME EXTERNAL_NAME EXTERNAL_SOURCES)
 		if(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
 			set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY COMPILE_FLAGS " /DPD_LONGINTTYPE=\"long long\"")
 		endif()
-		set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY COMPILE_FLAGS " /DWIN32")
 	endif()
 
 	# Defines the name of the external.
