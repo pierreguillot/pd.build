@@ -67,7 +67,12 @@ function(add_pd_external PROJECT_NAME EXTERNAL_NAME EXTERNAL_SOURCES)
 
 	# Generate the function to export for Windows
 	if(${WIN32})
-		string(REPLACE "~" "_tilde" EXPORT_FUNCTION "${EXTERNAL_NAME}_setup")
+		if(NAME_HAS_DOT EQUAL -1)
+			string(REPLACE "~" "_tilde" EXPORT_FUNCTION "${EXTERNAL_NAME}_setup")
+		else()
+			string(REPLACE "." "0x2e" TEMP_NAME "${EXTERNAL_NAME}")
+			string(REPLACE "~" "_tilde" EXPORT_FUNCTION "setup_${TEMP_NAME}")
+		endif()
 		set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY LINK_FLAGS "/export:${EXPORT_FUNCTION}")
 	endif()
 
