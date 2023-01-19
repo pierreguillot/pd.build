@@ -43,7 +43,10 @@ set_pd_sources(${project_source_dir}/pure-data/src)
 # Set the output path for the externals (3):  
 set_pd_external_path(${project_source_dir}/binaries/)
 
-# Add one or several externals (4):   
+# Compiling for Pd double precision (4)(optional)
+set(PD_FLOATSIZE64 "ON")
+
+# Add one or several externals (5):   
 add_pd_external(my_object1_project my_object1_name ${project_source_dir}/sources/my_object1.c)
 
 add_pd_external(my_object2_project my_object2_name ${project_source_dir}/sources/my_object2.c)
@@ -53,7 +56,8 @@ Further information:
 1. The path *pd.cmake* depends on where you installed *pd.build*, here we assume that *pd.build* is localized at the root directory of you project.  
 2. The sources of Pure Data are not directly included in the *pd.build* because perhaps someone would like to use a specific version of Pure Data (like Pd-extended). It is possible that a later version directly include the latest Pd sources by default and use this function to override the path if needed.   
 3. Here the externals are installed in the *binaries* subfolder but you can use the function to use the folder of your choice.  
-4. The function adds a new subproject to the main project. This subproject matches to a new external allowing to compile only one object without compiling all the others. The first argument is the name of the subproject, the second argument is the name of the external and the third argument are the sources. If you use more than one file, you should use the CMake file system and quotes as demonstrated below:
+4. As of Pd 0.51-0 you can compile a ["Double precision" Pd](http://msp.ucsd.edu/Pd_documentation/x6.htm#s6.6). If you intend to use your externals in such an environment, you must also compile them with double precision by adding this line.
+5. The function adds a new subproject to the main project. This subproject matches to a new external allowing to compile only one object without compiling all the others. The first argument is the name of the subproject, the second argument is the name of the external and the third argument are the sources. If you use more than one file, you should use the CMake file system and quotes as demonstrated below:
 
 ```cmake
 file(GLOB my_object3_sources ${project_source_dir}/sources/my_object3.c ${project_source_dir}/sources/my_object3_other.h ${project_source_dir}/sources/my_object3_other.c)

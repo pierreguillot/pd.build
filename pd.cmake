@@ -54,6 +54,11 @@ function(add_pd_external PROJECT_NAME EXTERNAL_NAME EXTERNAL_SOURCES)
 		endif()
 	endif()
 
+	# Support for PD double precision
+	if(PD_FLOATSIZE64)
+		set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY COMPILE_FLAGS " -DPD_FLOATSIZE=64")
+	endif()
+
 	# Defines the name of the external.
 	# On XCode with CMake < 3.4 if the name of an external ends with tilde but doesn't have a dot, the name must be 'name~'.
 	# CMake 3.4 is not sure, but it should be between 3.3.2 and 3.6.2
